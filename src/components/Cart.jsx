@@ -2,6 +2,11 @@ import CartItem from "./CartItem";
 
 function Cart({cart, clearCart, removeItem}){
     let total = 0;
+    let totalItem = 0;
+
+    {cart.forEach(item=>{
+        totalItem+= item.quantity
+    })}
 
     return (
         <div className="cart-container">
@@ -9,7 +14,7 @@ function Cart({cart, clearCart, removeItem}){
             <div className="cart-header">
                 <div>
                     <h2>Shopping Cart</h2>
-                    <p>{cart.length} {cart.length === 1 ? "item" : "items"}</p>
+                    <p>{totalItem} {totalItem === 1 ? "item" : "items"}</p>
                 </div>
 
                 <span className="cart-icon">🛒</span>
@@ -42,7 +47,7 @@ function Cart({cart, clearCart, removeItem}){
                     <div className="cart-summary">
                         <div className="total-row">
                             <span>Total</span>
-                            <strong>${total}</strong>
+                            <strong>${total.toFixed(2)}</strong>
                         </div>
 
                         <button className="clear-button" onClick={clearCart}>

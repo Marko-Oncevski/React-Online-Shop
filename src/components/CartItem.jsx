@@ -4,11 +4,11 @@ function CartItem({cartItem, removeItem}){
         <div className="cart-item">
 
             <div className="cart-item-info">
-                <h4>{cartItem.name}</h4>
+                <h4>{cartItem.title}</h4>
 
                 <div className="cart-item-details">
                     <span>Quantity: {cartItem.quantity}</span>
-                    <span>${cartItem.price * cartItem.quantity}</span>
+                    <span>${(cartItem.price * cartItem.quantity).toFixed(2)}</span>
                 </div>
             </div>
 
