@@ -1,18 +1,20 @@
 import { useState } from 'react'
-import ProductList from './components/ProductList';
-import ProductDetails from './components/ProductDetails';
-import Cart from './components/Cart';
+import Layout from './layouts/Layout';
+import Home from './pages/Home';
+import Products from './pages/Products';
+import About from './pages/About';
+import { Route,Routes } from 'react-router-dom';
+import ProductDetails from './pages/ProductDetails';
+import NotFound from './pages/NotFound';
+import { Search } from './pages/Search';
 
 function App() {
   
   const [cart,setCart] = useState([]);
-  const [selectedProduct,setSelectedProduct] = useState(null);
+
   const [isCartOpen,setIsCartOpen]= useState(false);
   let cartCount = 0;
 
-  function selectProduct(product){
-    return setSelectedProduct(product);
-  }
 
   
   function clearCart(){
@@ -71,62 +73,29 @@ function App() {
   })
 
   return (
-    <div className="app">
-      <header className="header">
-        <div className="brand">
-          <div className="logo-icon">N</div>
-
-          <div className="brand-text">
-            <h1>Nexora</h1>
-            <p>Shop smarter. Live better.</p>
-          </div>
-        </div>
-
-        <button className="cart-button" onClick={() => setIsCartOpen(true)}>
-          <span className="cart-button-icon">🛒</span>
-          <span>Cart</span>
-          <span className="cart-count">{cartCount}</span>
-        </button>
-      </header>
-
-      <main className={`shop-layout ${selectedProduct ? "details-layout" : ""}`}>
-        <section className="products-section">
-          <div className="section-title">
-            <h2>Products</h2>
-          </div>
-
-          {selectedProduct ? 
-          <ProductDetails 
-            selectedProduct={selectedProduct}
-            setSelectedProduct={setSelectedProduct}
-          /> : 
-          <ProductList 
-            addToCart={addToCart}
-            selectProduct={selectProduct}
-          />}
-          
-        </section>
-
-
-        {isCartOpen && 
-        <>
-          <div className='cart-overlay' onClick={(()=> setIsCartOpen(false))}>
-
-          </div>
-          <aside className="cart-drawer">
-              <button onClick={(()=> setIsCartOpen(false))} className='cart-close-button'>X</button>
-              <Cart
-                cart={cart}
-                clearCart={clearCart}
-                removeItem={removeItem}
-              />
-          </aside>
-        </>
-        }   
-
+    <Routes>
+      <Route element={<Layout 
+        cartCount={cartCount} 
+        setIsCartOpen={setIsCartOpen}
+        cart={cart}
+        isCartOpen={isCartOpen}
+        clearCart={clearCart}
+        removeItem={removeItem}
+      />}>
+        <Route index  element={<Home/>}/>
+        <Route path='products' element={<Products
+        addToCart = {addToCart}
+        />}/>
+        <Route path='products/:id' element={<ProductDetails/>}/>
+        <Route path='about' element={<About/>}/>
+        <Route path='search' element={<Search 
+        addToCart={addToCart}/> } />
         
-      </main>
-    </div>
+      </Route>
+      <Route path='*' element={<NotFound/>}/>
+      
+    
+    </Routes>
   );
 
 }

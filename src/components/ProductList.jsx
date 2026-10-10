@@ -2,36 +2,59 @@ import useFetch from "../hooks/useFetch";
 import ProductCard from "./ProductCard";
 import { useState } from "react";
 
-function ProductList({addToCart,selectProduct}){
-    const {loading,error,data} = useFetch("https://dummyjson.com/products");
-    const [search,setSearch] = useState("");
-    const filteredProducts = data && data.products.slice(0,10).filter(product=> product.title.toLowerCase().includes(search.toLowerCase()))
+
+function ProductList({addToCart}){
+    const productPerPage = 21;
+    const [page,setPage]= useState(1);
+    const skip = (page - 1 ) * productPerPage;
+
+    const {loading,error,data} = useFetch(`https://dummyjson.com/products?limit=${productPerPage}&skip=${skip}`);
+
+    const totalPages = data && Math.ceil(data.total / productPerPage);
+
 
 
     return (
         <>
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
-            <input
-                className="search-input" type="text" placeholder="Search products..."
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-            />
-            
+
             <div className="products-grid">
                 
-                
-                {filteredProducts && filteredProducts.map(product => {
+                {data && data.products.map(product => {
                     return (
                         <ProductCard 
                         product={product} 
                         addToCart={addToCart} 
                         key={product.id}
-                        selectProduct={selectProduct}
+                        
                         />
                     )
                 })}
+                
+                
             </div>
+            
+            <div className="pagination">
+                <p>Page {page} of {totalPages}</p>
+
+                <div className="pagination-buttons">
+                    <button
+                        onClick={() => setPage(page - 1)}
+                        disabled={page === 1}
+                    >
+                        Previous
+                    </button>
+
+                    <button
+                        onClick={() => setPage(page + 1)}
+                        disabled={page === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+            </div>
+
         </>
     );
 }

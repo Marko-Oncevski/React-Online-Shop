@@ -1,4 +1,5 @@
-function ProductCard({product, addToCart,selectProduct}){
+import { Link } from "react-router-dom";
+function ProductCard({product, addToCart}){
     return (
         <div className="product-card">
             <img src={product.images[0]}  />
@@ -11,9 +12,7 @@ function ProductCard({product, addToCart,selectProduct}){
                 Add to Cart
             </button>
 
-            <button className="details-button" onClick={() => selectProduct(product)}>
-                View Details
-            </button>
+            <Link to={`/products/${product.id}`} className="details-button">View Details</Link>
         </div>
     );
 }
