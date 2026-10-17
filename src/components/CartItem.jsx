@@ -1,4 +1,7 @@
-function CartItem({cartItem, removeItem}){
+import { useCart } from "../hooks/useCart";
+
+function CartItem({cartItem }){
+    const {dispatch} = useCart();
     
     return (
         <div className="cart-item">
@@ -12,7 +15,7 @@ function CartItem({cartItem, removeItem}){
                 </div>
             </div>
 
-            <button className="remove-button" onClick={() => removeItem(cartItem)}>
+            <button className="remove-button" onClick={() => dispatch({type: "REMOVE_ITEM", payload: {id: cartItem.id} })}>
                 Remove
             </button>
 

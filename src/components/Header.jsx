@@ -1,12 +1,16 @@
 
 import { useEffect, useState } from "react";
-import {
-    NavLink,
-    useNavigate,
-    useSearchParams
-} from "react-router-dom";
+import {NavLink,useNavigate,useSearchParams} from "react-router-dom";
+import { useCart } from "../hooks/useCart";
 
-function Header({ cartCount, setIsCartOpen }) {
+function Header({  setIsCartOpen }) {
+    const {state} = useCart();
+    let cartCount = 0;
+    state.items.forEach(item => {
+        cartCount += item.quantity
+    })
+    
+    
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
@@ -104,6 +108,15 @@ function Header({ cartCount, setIsCartOpen }) {
                     }
                 >
                     About
+                </NavLink>
+
+                <NavLink
+                    to="/favorites"
+                    className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                    }
+                >
+                    Favorites
                 </NavLink>
             </nav>
 

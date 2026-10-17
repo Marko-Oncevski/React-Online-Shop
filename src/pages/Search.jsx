@@ -1,25 +1,21 @@
 import { useSearchParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
 import ProductCard from "../components/ProductCard";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useSearch } from "../hooks/useSearch";
 
 
-export function Search({ addToCart }) {
-    const [searchParams,setSearchParams] = useSearchParams();
+export function Search() {
+    const [searchParams] = useSearchParams();
     const query = searchParams.get("q")?.trim() ?? "";
-    const { loading, error, data } = useFetch(
-        `https://dummyjson.com/products/search?q=${encodeURIComponent(query)}`
-    );
-    const [search,setSearch] = useState(query ?? "");
-    function handleSearch(e) {
-        e.preventDefault();
+    const {state,searchProducts} = useSearch();
+    const {loading,error,results} = state;
 
-        const term = search.trim();
+    useEffect(()=>{
+        if(query){
+            searchProducts(query)
+        }
+    },[query,searchProducts])
 
-        if (!term) return;
-
-        setSearchParams({ q: term });
-    }
     return (
         <section className="products-section">
             <div className="section-title">
@@ -39,13 +35,13 @@ export function Search({ addToCart }) {
                 <p>Loading products...</p>
             ) : error ? (
                 <p>{error}</p>
-            ) : data?.products?.length > 0 ? (
+            ) : results.length > 0 ? (
                 <div className="products-grid">
-                    {data.products.map(product => (
+                    {results.map(product => (
                         <ProductCard
                             key={product.id}
                             product={product}
-                            addToCart={addToCart}
+                            
                         />
                     ))}
                 </div>

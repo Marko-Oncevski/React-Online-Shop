@@ -1,6 +1,6 @@
 import ProductList from "../components/ProductList";
 
-function Products({ addToCart }) {
+function Products() {
     return (
         <section className="products-section">
             <div className="section-title">
@@ -16,7 +16,7 @@ function Products({ addToCart }) {
                 </p>
             </div>
 
-            <ProductList addToCart={addToCart} />
+            <ProductList />
         </section>
     );
 }

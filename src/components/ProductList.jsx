@@ -3,7 +3,7 @@ import ProductCard from "./ProductCard";
 import { useState } from "react";
 
 
-function ProductList({addToCart}){
+function ProductList(){
     const productPerPage = 21;
     const [page,setPage]= useState(1);
     const skip = (page - 1 ) * productPerPage;
@@ -25,7 +25,6 @@ function ProductList({addToCart}){
                     return (
                         <ProductCard 
                         product={product} 
-                        addToCart={addToCart} 
                         key={product.id}
                         
                         />

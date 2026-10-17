@@ -1,6 +1,9 @@
 import CartItem from "./CartItem";
+import { useCart } from "../hooks/useCart";
 
-function Cart({cart, clearCart, removeItem}){
+function Cart(){
+    const {state,dispatch} = useCart();
+    const cart = state.items
     let total = 0;
     let totalItem = 0;
 
@@ -34,7 +37,6 @@ function Cart({cart, clearCart, removeItem}){
                                 <CartItem
                                     key={item.id}
                                     cartItem={item}
-                                    removeItem={removeItem}
                                 />
                             )
                         })}
@@ -50,7 +52,7 @@ function Cart({cart, clearCart, removeItem}){
                             <strong>${total.toFixed(2)}</strong>
                         </div>
 
-                        <button className="clear-button" onClick={clearCart}>
+                        <button className="clear-button" onClick={()=> dispatch({type: "CLEAR_CART"})}>
                             Clear Cart
                         </button>
                     </div>
