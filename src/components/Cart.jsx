@@ -1,6 +1,6 @@
 import CartItem from "./CartItem";
 import { useCart } from "../hooks/useCart";
-
+import { ShoppingCart,ShoppingBag  } from "lucide-react";
 function Cart(){
     const {state,dispatch} = useCart();
     const cart = state.items
@@ -20,12 +20,16 @@ function Cart(){
                     <p>{totalItem} {totalItem === 1 ? "item" : "items"}</p>
                 </div>
 
-                <span className="cart-icon">🛒</span>
+                <span className="cart-icon">
+                    <ShoppingCart size={20} strokeWidth={2} />
+                </span>
             </div>
 
             {cart.length === 0 ? (
                 <div className="empty-cart">
-                    <div className="empty-icon">🛍️</div>
+                    <div className="empty-icon">
+                        <ShoppingBag size={42} strokeWidth={1.6} />
+                    </div>
                     <h3>Your cart is empty</h3>
                     <p>Add some products to get started.</p>
                 </div>

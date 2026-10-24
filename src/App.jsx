@@ -13,7 +13,10 @@ import Favorites from './pages/Favorites'
 function App() {
   
 
-  const [isCartOpen,setIsCartOpen]= useState(false);
+  const [isCartOpen,setIsCartOpen] = useState(false);
+
+
+
 
   return (
     <Routes>
@@ -21,6 +24,7 @@ function App() {
        
         setIsCartOpen={setIsCartOpen}
         isCartOpen={isCartOpen}
+
       />}>
         <Route index  element={<Home/>}/>
         <Route path='products' element={<Products/>}/>

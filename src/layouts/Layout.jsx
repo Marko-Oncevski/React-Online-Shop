@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -18,7 +19,9 @@ function Layout({setIsCartOpen,isCartOpen}){
 
                 </div>
                 <aside className="cart-drawer">
-                    <button onClick={(()=> setIsCartOpen(false))} className='cart-close-button'>X</button>
+                    <button onClick={(()=> setIsCartOpen(false))} className='cart-close-button'>
+                        <X size={22} strokeWidth={2} />
+                    </button>
                     <Cart
                     />
                 </aside>

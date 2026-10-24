@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import { ShoppingCart } from "lucide-react";
 function Home() {
     return (
         <main className="home-page">
@@ -80,7 +80,9 @@ function Home() {
                     </div>
 
                     <div className="home-floating-card home-floating-bottom">
-                        <span className="home-floating-icon">🛍️</span>
+                        <span className="home-floating-icon">
+                            <ShoppingCart size={20} strokeWidth={2} />
+                        </span>
                         <div>
                             <strong>Your next pick</strong>
                             <p>Just a click away</p>
@@ -115,7 +117,9 @@ function Home() {
                     </article>
 
                     <article className="home-benefit-card">
-                        <div className="home-benefit-icon">🛒</div>
+                        <div className="home-benefit-icon">
+                            <ShoppingCart size={20} strokeWidth={2} />
+                        </div>
                         <h3>Shop your way</h3>
                         <p>
                             Add products to your cart and manage your

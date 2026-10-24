@@ -1,9 +1,11 @@
-
-import { useEffect, useState } from "react";
+import { Moon, Sun ,ShoppingCart,Menu,X } from "lucide-react";
+import { useEffect, useState,useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 import {NavLink,useNavigate,useSearchParams} from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 
 function Header({  setIsCartOpen }) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const {state} = useCart();
     let cartCount = 0;
     state.items.forEach(item => {
@@ -16,6 +18,7 @@ function Header({  setIsCartOpen }) {
 
     const query = searchParams.get("q") ?? "";
     const [search, setSearch] = useState(query);
+    const {theme,setTheme} = useContext(ThemeContext)
 
     useEffect(() => {
         setSearch(query);
@@ -82,12 +85,25 @@ function Header({  setIsCartOpen }) {
                 </div>
             </form>
 
-            <nav>
+            <button
+                type="button"
+                className="menu-toggle-button"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={isMenuOpen}
+                aria-controls="primary-navigation"
+            >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+            <nav 
+                id="primary-navigation"
+                className={isMenuOpen ? "open" : ""}>
                 <NavLink
                     to="/"
                     className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                     }
+                    onClick={() => setIsMenuOpen(false)}
                 >
                     Home
                 </NavLink>
@@ -97,6 +113,7 @@ function Header({  setIsCartOpen }) {
                     className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                     }
+                    onClick={() => setIsMenuOpen(false)}
                 >
                     Products
                 </NavLink>
@@ -106,6 +123,7 @@ function Header({  setIsCartOpen }) {
                     className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                     }
+                    onClick={() => setIsMenuOpen(false)}
                 >
                     About
                 </NavLink>
@@ -115,19 +133,38 @@ function Header({  setIsCartOpen }) {
                     className={({ isActive }) =>
                         isActive ? "nav-link active" : "nav-link"
                     }
+                    onClick={() => setIsMenuOpen(false)}
                 >
                     Favorites
                 </NavLink>
             </nav>
 
-            <button
-                className="cart-button"
-                onClick={() => setIsCartOpen(true)}
-            >
-                <span className="cart-button-icon">🛒</span>
-                <span>Cart</span>
-                <span className="cart-count">{cartCount}</span>
-            </button>
+            <div className="header-actions">
+                <button
+                    type="button"
+                    className="theme-toggle-floating"
+                    onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                    aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+                    aria-pressed={theme === "dark"}
+                >
+                    {theme === "light" ? (
+                        <Moon size={22} strokeWidth={2} />
+                    ) : (
+                        <Sun size={22} strokeWidth={2} />
+                    )}
+                </button>
+
+                <button
+                    className="cart-button"
+                    onClick={() => setIsCartOpen(true)}
+                >
+                    <span className="cart-button-icon">
+                        <ShoppingCart size={20} strokeWidth={2} />
+                    </span>
+                    <span>Cart</span>
+                    <span className="cart-count">{cartCount}</span>
+                </button>
+            </div>
         </header>
     );
 }
